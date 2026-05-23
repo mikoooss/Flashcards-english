@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/icons8-flashcards-100.png">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <title>Flashcards</title>
+</head>
+<style>
+    * {
+        margin: 0;
+    }
+
+    body {
+        min-height: 100vh;
+        background: linear-gradient(-45deg, #f59e0b, #ef4444, #ec4899, #f59e0b);
+        background-size: 300% 300%;
+        animation: shift 6s ease infinite;
+        font-family: 'Comfortaa', sans-serif;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        user-select: none;
+    }
+
+    h1 {
+        font-size: 50px;
+    }
+
+    main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+
+    section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        width: 800px;
+    }
+
+    .level {
+        padding: 50px;
+        border: 1px solid white;
+        background-color: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(15px);
+        border-radius: 10px;
+        color: white;
+        width: 100px;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: 0.2s ease;
+        cursor: pointer;
+    }
+
+    .level:hover {
+        transition: 0.2s ease;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .level:active {
+        transition: 0.2s ease;
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    @keyframes shift {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+</style>
+<body>
+    <main>
+        <h1>Ready to learn new words?</h1>
+        <section>
+            <div class="level a1">
+                <h2>A1</h2>
+            </div>
+            <div class="level a2">
+                <h2>A2</h2>
+            </div>
+            <div class="level b1">
+                <h2>B1</h2>
+            </div>
+            <div class="level b2">
+                <h2>B2</h2>
+            </div>
+            <div class="level c1">
+                <h2>C1</h2>
+            </div>
+            <div class="level c2">
+                <h2>C2</h2>
+            </div>
+        </section>
+    </main>
+    <script>
+        document.querySelector('.a1').addEventListener('click', function() {
+            window.location.href = 'a1.html'
+        })
+        document.querySelector('.a2').addEventListener('click', function() {
+            window.location.href = 'a2.html'
+        })
+        document.querySelector('.b1').addEventListener('click', function() {
+            window.location.href = 'b1.html'
+        })
+        document.querySelector('.b2').addEventListener('click', function() {
+            window.location.href = 'b2.html'
+        })
+        document.querySelector('.c1').addEventListener('click', function() {
+            window.location.href = 'c1.html'
+        })
+        document.querySelector('.c2').addEventListener('click', function() {
+            window.location.href = 'c2.html'
+        })
+    </script>
+</body>
+</html>

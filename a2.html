@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/icons8-flashcards-100.png">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <title>C2 Flashcards</title>
+</head>
+<style>
+    * {
+        margin: 0;
+    }
+
+    body {
+        min-height: 100vh;
+        background: linear-gradient(-45deg, #f59e0b, #ef4444, #ec4899, #f59e0b);
+        background-size: 300% 300%;
+        animation: shift 6s ease infinite;
+        font-family: 'Comfortaa', sans-serif;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        user-select: none;
+    }
+
+    main {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .scene {
+        perspective: 4000px;
+    }
+
+    .card {
+        position: relative;
+        width: 550px;
+        height: 300px;
+        transform-style: preserve-3d;
+        transition: transform 0.6s ease;
+        background-color: white;
+        color: black;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    section {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .front, .back {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+        backface-visibility: hidden;
+        flex-wrap: wrap;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .back {
+        transform: rotateY(180deg);
+    }
+
+    .flipped {
+        transform: rotateY(180deg);
+    }
+
+    .prev {
+        background-color: white;
+        border: none;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        padding: 10px;
+        gap: 5px;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .next {
+        background-color: white;
+        border: none;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        gap: 5px;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    button:hover {
+        transition: 0.2s ease;
+        opacity: 0.9;
+    }
+
+    button:active {
+        transition: 0.2s ease;
+        opacity: 0.8;
+    }
+
+    img {
+        width: 20px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    @keyframes shift {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+</style>
+<body>
+    <main>
+        <div class="scene">
+            <div class="card">
+                <div class="front">
+                    <h2>Word</h2>
+                </div>
+                <div class="back">
+                    <h2>Definition</h2>
+                </div>
+            </div>
+        </div>
+        <section>
+            <button class="prev">
+                <p id="previous-word">Previous word</p>
+                <img src="images/icons8-back-50 (1).png">
+            </button>
+            <button class="next">
+                <p id="next-word">Next word</p>
+                <img src="images/icons8-arrow-right-50 (1).png">
+            </button>
+        </section>
+    </main>
+    <script>
+        const scene = document.querySelector('.scene')
+        const card = document.querySelector('.card')
+        const front = document.querySelector('.front h2')
+        const back = document.querySelector('.back h2')
+        const previousWord = document.getElementById('previous-word')
+        const nextWord = document.getElementById('next-word')
+        const url = './json/a2.json'
+        const quantity = 864
+
+        let allCards = []
+        let previousCards = []
+        let currentIndex = -1
+        let lastResponse = []
+
+        async function loadData() {
+            const data = await fetch(url)
+            lastResponse = await data.json()
+            getWord()
+        }
+
+        async function getWord() {
+            const randomNum = Math.floor(Math.random() * quantity)
+            front.textContent = lastResponse[randomNum].word
+            back.textContent = lastResponse[randomNum].definition
+            previousCards = previousCards.slice(0, currentIndex + 1)
+            previousCards.push(randomNum)
+            console.log(previousCards)
+            currentIndex = previousCards.length - 1
+            card.classList.remove('flipped')
+        }
+
+        function showPrevious() {
+            if (currentIndex <= 0) return
+            currentIndex--
+            card.classList.remove('flipped')
+            front.textContent = lastResponse[previousCards[currentIndex]].word
+            back.textContent = lastResponse[previousCards[currentIndex]].definition
+        }
+
+        scene.addEventListener('click', function() {
+            card.classList.toggle('flipped')
+        })
+
+        window.addEventListener('load', loadData)
+        nextWord.addEventListener('click', getWord)
+        previousWord.addEventListener('click', showPrevious)
+    </script>
+</body>
+</html>
